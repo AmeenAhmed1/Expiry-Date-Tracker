@@ -3,6 +3,7 @@ package com.ameen.expirydatetracker.ui
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,13 +23,15 @@ import com.google.zxing.integration.android.IntentIntegrator
 
 class MainActivity : AppCompatActivity() {
 
+    private val TAG = "MainActivity"
+
     private var binding: ActivityMainBinding? = null
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navBottomBar: BottomNavigationView
     private lateinit var navController: NavController
 
-    private lateinit var itemViewModel: ItemViewModel
+    lateinit var itemViewModel: ItemViewModel
     private lateinit var itemRepository: ItemRepository
     private lateinit var localDataBase: AppDatabase
 
@@ -72,11 +75,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
         if (intentResult != null) {
             if (intentResult.contents != null) {
+
+                //Get Scanned Data and convert it from JSON to Item Object
                 val result = Utils.parsingScannedData(intentResult.contents)
+                Log.i(TAG, "onActivityResult: ScannedData $result")
+
                 AlertDialog.Builder(this)
+                    //Convert data object to String to show it up.
                     .setMessage(Utils.convertScannedData(result))
                     .setTitle("Result")
                     .setPositiveButton("Save", DialogInterface.OnClickListener { _, _ ->

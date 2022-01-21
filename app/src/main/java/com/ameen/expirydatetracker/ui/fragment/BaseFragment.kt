@@ -6,8 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.ameen.expirydatetracker.adapter.ItemExpireAdapter
+import com.ameen.expirydatetracker.ui.MainActivity
+import com.ameen.expirydatetracker.viewmodel.ItemViewModel
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
+
+    //Shared ViewModel
+    protected lateinit var itemViewModel: ItemViewModel
 
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -28,6 +34,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemViewModel = (activity as (MainActivity)).itemViewModel
         setupOnViewCreated()
     }
 

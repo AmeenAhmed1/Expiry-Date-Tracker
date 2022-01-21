@@ -10,9 +10,9 @@ import com.ameen.expirydatetracker.data.ItemModel
 interface ItemExpireDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertScannedItem(item: ItemModel)
+    suspend fun insertScannedItem(item: ItemModel): Long?
 
-    @Query("SELECT * FROM ScannedItems")
+    @Query("SELECT * FROM ScannedItems WHERE isExpired = 0")
     suspend fun getScannedItem(): List<ItemModel>
 
     @Query("SELECT * FROM ScannedItems WHERE isExpired = 1")

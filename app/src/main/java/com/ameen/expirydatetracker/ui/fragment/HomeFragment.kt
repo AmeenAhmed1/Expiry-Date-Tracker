@@ -1,13 +1,18 @@
 package com.ameen.expirydatetracker.ui.fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ameen.expirydatetracker.adapter.ItemExpireAdapter
-import com.ameen.expirydatetracker.data.ItemModel
 import com.ameen.expirydatetracker.databinding.FragmentHomeBinding
+import com.ameen.expirydatetracker.ui.MainActivity
+import com.ameen.expirydatetracker.viewmodel.ItemViewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+
+    private val TAG = "HomeFragment"
 
     private lateinit var itemExpireAdapter: ItemExpireAdapter
 
@@ -15,7 +20,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         get() = FragmentHomeBinding::inflate
 
     override fun setupOnViewCreated() {
+
         initRecyclerView()
+
+        //initialized in the BaseFragment()
+        itemViewModel.scannedItem.observe(this, Observer {
+            itemExpireAdapter.diff.submitList(it)
+        })
     }
 
     private fun initRecyclerView() {
@@ -25,14 +36,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             adapter = itemExpireAdapter
         }
 
+        itemViewModel.getAllScannedItemLocally()
 
-        itemExpireAdapter.diff.submitList(
-            arrayListOf(
-                ItemModel(title = "First", category = "First"),
-                ItemModel(title = "Second", category = "Second"),
-                ItemModel(title = "Third", category = "Third"),
-                ItemModel(title = "Fourth", category = "Fourth"),
-            )
-        )
+        Log.i(TAG, "initRecyclerView: Called")
     }
 }

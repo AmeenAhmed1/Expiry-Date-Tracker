@@ -7,4 +7,10 @@ class ItemRepository(private val db: AppDatabase) {
 
     suspend fun insertItemLocally(item: ItemModel) =
         db.getItemDao().insertScannedItem(item)
+
+    suspend fun getAllScannedItemLocally() =
+        db.getItemDao().getScannedItem()
+
+    suspend fun getAllExpiredItemLocally() =
+        db.getItemDao().getExpiredItems()
 }

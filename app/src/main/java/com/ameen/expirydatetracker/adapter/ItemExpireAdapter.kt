@@ -35,6 +35,13 @@ class ItemExpireAdapter() :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+        val currentItem = diff.currentList[position]
+
+        holder.binding.apply {
+            titleTextView.text = currentItem.title
+            categoryTextView.text = currentItem.category
+            expireDateTextView.text = currentItem.expireDate
+        }
     }
 
     override fun getItemCount(): Int = diff.currentList.size
