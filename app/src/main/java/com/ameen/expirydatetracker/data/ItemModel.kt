@@ -1,7 +1,14 @@
 package com.ameen.expirydatetracker.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "ScannedItems")
 data class ItemModel(
-    val id: Int? = null,
     val title: String? = null,
-    val category: String? = null
-)
+    val category: String? = null,
+    var isExpired: Boolean = false
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
