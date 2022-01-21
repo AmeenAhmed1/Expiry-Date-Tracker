@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Expiry Date Tracker</string>
+    <string name="home">Home</string>
+    <string name="expire">Expire</string>
+    <string name="scanner_button">Scanner Button</string>
+    <string name="item_title">Item Title</string>
+    <string name="item_category">item category</string>
+    <string name="item_date">26-5-2022</string>
 </resources>
