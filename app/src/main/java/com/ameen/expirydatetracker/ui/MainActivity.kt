@@ -1,15 +1,22 @@
 package com.ameen.expirydatetracker.ui
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ameen.expirydatetracker.R
+import com.ameen.expirydatetracker.data.local.AppDatabase
 import com.ameen.expirydatetracker.databinding.ActivityMainBinding
+import com.ameen.expirydatetracker.repository.ItemRepository
+import com.ameen.expirydatetracker.util.Utils
+import com.ameen.expirydatetracker.viewmodel.ItemViewModel
+import com.ameen.expirydatetracker.viewmodel.ItemViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.zxing.integration.android.IntentIntegrator
 
@@ -21,12 +28,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navBottomBar: BottomNavigationView
     private lateinit var navController: NavController
 
+    private lateinit var itemViewModel: ItemViewModel
+    private lateinit var itemRepository: ItemRepository
+    private lateinit var localDataBase: AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
         initView()
+
+        initViewModel()
 
         binding?.scannerButton?.setOnClickListener {
             IntentIntegrator(this).apply {
@@ -37,6 +50,15 @@ class MainActivity : AppCompatActivity() {
                 initiateScan()
             }
         }
+    }
+
+    private fun initViewModel() {
+        localDataBase = AppDatabase.invoke(this)
+        itemRepository = ItemRepository(localDataBase)
+        itemViewModel = ViewModelProvider(
+            this,
+            ItemViewModelProvider(itemRepository)
+        ).get(ItemViewModel::class.java)
     }
 
     private fun initView() {
@@ -53,13 +75,17 @@ class MainActivity : AppCompatActivity() {
         val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (intentResult != null) {
             if (intentResult.contents != null) {
+                val result = Utils.parsingScannedData(intentResult.contents)
                 AlertDialog.Builder(this)
-                    .setMessage(intentResult.contents)
+                    .setMessage(Utils.convertScannedData(result))
                     .setTitle("Result")
+                    .setPositiveButton("Save", DialogInterface.OnClickListener { _, _ ->
+                        itemViewModel.insertItemLocally(result)
+                    })
                     .create()
                     .show()
             } else Toast.makeText(this, "No Result Found", Toast.LENGTH_SHORT).show()
         } else super.onActivityResult(requestCode, resultCode, data)
-
     }
+
 }

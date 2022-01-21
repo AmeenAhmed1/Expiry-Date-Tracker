@@ -26,6 +26,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            testCoverageEnabled true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,6 +54,8 @@ dependencies {
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation "androidx.test:core:1.4.0"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.json:json:20180813"
+
 
     //Room Database
     implementation("androidx.room:room-runtime:2.4.1")
