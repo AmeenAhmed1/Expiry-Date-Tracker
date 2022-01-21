@@ -51,9 +51,9 @@ class AppDatabaseTest {
     }
 
     @Test
-    fun getAllScannedItem() = runBlocking {
+    fun getAllScannedNotExpiredItem() = runBlocking {
         val items = dbDao.getScannedItem()
-        assertThat(items.size, equalTo(9))
+        assertThat(items.size, equalTo(6))
     }
 
     @Test
