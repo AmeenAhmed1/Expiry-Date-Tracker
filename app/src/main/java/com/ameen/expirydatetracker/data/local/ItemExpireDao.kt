@@ -12,7 +12,7 @@ interface ItemExpireDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertScannedItem(item: ItemModel): Long?
 
-    @Query("SELECT * FROM ScannedItems WHERE isExpired = 0")
+    @Query("SELECT * FROM ScannedItems WHERE isExpired = 0 ORDER BY daysLeft ASC")
     suspend fun getScannedItem(): List<ItemModel>
 
     @Query("SELECT * FROM ScannedItems WHERE isExpired = 1")

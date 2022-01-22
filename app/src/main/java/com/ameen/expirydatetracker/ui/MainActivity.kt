@@ -95,11 +95,12 @@ class MainActivity : AppCompatActivity() {
                     .setMessage(Utils.convertScannedData(result))
                     .setTitle("Result")
                     .setPositiveButton("Save", DialogInterface.OnClickListener { _, _ ->
-                        if (Utils.getExpireDaysLeft(result.expireDate) < 0) {
+                        val days = Utils.getExpireDaysLeft(result.expireDate)
+                        if (days < 0) {
                             result.isExpired = true
                             Toast.makeText(this, "This product is expired", Toast.LENGTH_SHORT)
                                 .show()
-                        }
+                        } else result.daysLeft = days
                         itemViewModel.insertItemLocally(result)
                     })
                     .create()

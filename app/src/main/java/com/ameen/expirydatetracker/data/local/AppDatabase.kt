@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ameen.expirydatetracker.data.ItemModel
 
-@Database(entities = [ItemModel::class], version = 3)
+@Database(entities = [ItemModel::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getItemDao(): ItemExpireDao

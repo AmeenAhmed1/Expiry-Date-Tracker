@@ -42,7 +42,8 @@ class ItemExpireAdapter() :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val currentItem = diff.currentList[position]
+        val sortedList = diff.currentList.sortedBy { it.expireDate }
+        val currentItem = sortedList[position]
 
         currentItem?.apply {
             this.expireDate?.apply {
