@@ -6,6 +6,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RunWith(JUnit4::class)
 class UtilsTest {
@@ -24,6 +26,53 @@ class UtilsTest {
 
         val result = Utils.parsingScannedData(json)
 
-        assertEquals(result, itemExpected)
+        assertEquals(itemExpected, result)
+    }
+
+    @Test
+    fun dateFormatFromDateString() {
+
+        val dateString = "20-11-2022"
+
+        val dateExpected = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-M-yyyy"))
+
+        val dateResult = Utils.convertStringToDate(dateString)
+
+        assertEquals(dateExpected, dateResult)
+    }
+
+    @Test
+    fun getCurrentDateFromLocal() {
+
+        val dateString = "22-1-2022"
+
+        val dateExpected = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-M-yyyy"))
+
+        val dateResult = Utils.getCurrentDate()
+
+        assertEquals(dateExpected, dateResult)
+    }
+
+    @Test
+    fun checkDateIsBeforeCurrent() {
+
+        val dateString = "20-1-2022"
+        val date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-M-yyyy"))
+
+        val result = Utils.checkScannedIsBeforeCurrent(date)
+
+        assert(result)
+    }
+
+
+    @Test
+    fun calculateDaysLeft() {
+
+        val dateString = "20-01-2022"
+
+        val resultExpected = 2L
+        val result = Utils.getExpireDaysLeft(dateString)
+
+        assertEquals(resultExpected, result)
     }
 }
