@@ -2,9 +2,11 @@ package com.ameen.expirydatetracker.ui
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -74,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         navBottomBar.setupWithNavController(navController)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
@@ -83,13 +86,20 @@ class MainActivity : AppCompatActivity() {
 
                 //Get Scanned Data and convert it from JSON to Item Object
                 val result = Utils.parsingScannedData(intentResult.contents)
+
                 Log.i(TAG, "onActivityResult: ScannedData $result")
+                Log.i(TAG, "onActivityResult: ${Utils.getExpireDaysLeft(result.expireDate!!)}")
 
                 AlertDialog.Builder(this)
                     //Convert data object to String to show it up.
                     .setMessage(Utils.convertScannedData(result))
                     .setTitle("Result")
                     .setPositiveButton("Save", DialogInterface.OnClickListener { _, _ ->
+                        if (Utils.getExpireDaysLeft(result.expireDate) < 0) {
+                            result.isExpired = true
+                            Toast.makeText(this, "This product is expired", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                         itemViewModel.insertItemLocally(result)
                     })
                     .create()

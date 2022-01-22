@@ -7,6 +7,7 @@ import org.json.JSONObject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import kotlin.math.abs
 
 object Utils {
 
@@ -59,10 +60,10 @@ object Utils {
 
         val date = convertStringToDate(dateScanned)
 
-        if (checkScannedIsBeforeCurrent(date))
-            return ChronoUnit.DAYS.between(date, getCurrentDate())
+        if (!checkScannedIsBeforeCurrent(date))
+            return abs(ChronoUnit.DAYS.between(date, getCurrentDate()))
 
-        return -1L
+        return -1
     }
 
 }

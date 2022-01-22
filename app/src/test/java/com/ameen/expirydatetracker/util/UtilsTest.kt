@@ -68,9 +68,33 @@ class UtilsTest {
     @Test
     fun calculateDaysLeft() {
 
+        val dateString = "28-01-2022"
+
+        val resultExpected = 6L
+        val result = Utils.getExpireDaysLeft(dateString)
+
+        assertEquals(resultExpected, result)
+    }
+
+    @Test
+    fun `Calculate Days Left If the Date is Before Current Means Expired` (){
+
         val dateString = "20-01-2022"
 
-        val resultExpected = 2L
+        val resultExpected = -1L
+        val result = Utils.getExpireDaysLeft(dateString)
+
+        assertEquals(resultExpected, result)
+    }
+
+
+    @Test
+    fun `Calculate Days Left If the Date is After Current Means Not Expired` (){
+
+        val dateString = "25-01-2022"
+        val currentDateString = "22-01-2022"
+
+        val resultExpected = 3L
         val result = Utils.getExpireDaysLeft(dateString)
 
         assertEquals(resultExpected, result)

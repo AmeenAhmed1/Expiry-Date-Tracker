@@ -31,12 +31,24 @@
 
     <TextView
         android:id="@+id/expireDateTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/item_date"
         android:textColor="@android:color/holo_red_dark"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/daysLeftTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/daysLeftTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/days_left"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expireDateTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
