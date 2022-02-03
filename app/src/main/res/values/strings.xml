@@ -7,4 +7,7 @@
     <string name="item_category">item category</string>
     <string name="item_date">26-5-2022</string>
     <string name="days_left">5326 days left</string>
+    <string name="CHANNEL_ID">1</string>
+    <string name="CHANNEL_NAME">Expire Item Channel</string>
+    <string name="CHANNEL_DESCRIPTION">Channel Description</string>
 </resources>

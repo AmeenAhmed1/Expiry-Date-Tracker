@@ -1,7 +1,6 @@
 package com.ameen.expirydatetracker.adapter
 
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ameen.expirydatetracker.data.ItemModel
 import com.ameen.expirydatetracker.databinding.ItemScannedBinding
-import com.ameen.expirydatetracker.util.Utils
 
 class ItemExpireAdapter() :
     RecyclerView.Adapter<ItemExpireAdapter.MyViewHolder>() {
@@ -46,16 +44,9 @@ class ItemExpireAdapter() :
         val currentItem = sortedList[position]
 
         currentItem?.apply {
-            this.expireDate?.apply {
-                val daysLeft = Utils.getExpireDaysLeft(this)
-                Log.i(TAG, "onBindViewHolder: $daysLeft")
-                if (daysLeft > -1L)
-                    holder.binding.daysLeftTextView.text =
-                        "$daysLeft days left"
-                else
-                    holder.binding.daysLeftTextView.text = "Expire"
-
-            }
+            if (isExpired) holder.binding.daysLeftTextView.text = "Expire"
+            else holder.binding.daysLeftTextView.text =
+                "$daysLeft days left"
         }
 
         holder.binding.apply {

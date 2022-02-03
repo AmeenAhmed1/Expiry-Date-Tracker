@@ -1,6 +1,7 @@
 package com.ameen.expirydatetracker.util
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.ameen.expirydatetracker.data.ItemModel
 import org.json.JSONObject
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.math.abs
 
+@RequiresApi(Build.VERSION_CODES.O)
 object Utils {
 
     /**
@@ -55,7 +57,6 @@ object Utils {
      *  @return -1 otherwise.
      *  @param dateScanned -> Scanned Expire Date.
      */
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getExpireDaysLeft(dateScanned: String): Long {
 
         val date = convertStringToDate(dateScanned)
@@ -66,4 +67,21 @@ object Utils {
         return -1
     }
 
+    /**
+     * Check the days left for expiration then update the DB.
+     * @param result --> The Current DB items.
+     * @return result --> The Updated List.
+     */
+    fun validateResult(result: List<ItemModel>): List<ItemModel> {
+        for (singleItem in result) {
+            val daysLeft = getExpireDaysLeft(singleItem.expireDate!!)
+
+            if (daysLeft > -1L) singleItem.daysLeft = daysLeft
+            else {
+                singleItem.daysLeft = 0
+                singleItem.isExpired = true
+            }
+        }
+        return result
+    }
 }

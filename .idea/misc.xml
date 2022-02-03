@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/GitHub-Projects/ExpiryDateTracker/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/GitHub-Projects/ExpiryDateTracker/app/src/main/res/drawable/ic_code_scanner.xml" value="0.136" />
+        <entry key="..\:/GitHub-Projects/ExpiryDateTracker/app/src/main/res/layout/activity_main.xml" value="0.36376210235131395" />
         <entry key="..\:/GitHub-Projects/ExpiryDateTracker/app/src/main/res/layout/fragment_expire.xml" value="0.25" />
         <entry key="..\:/GitHub-Projects/ExpiryDateTracker/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/GitHub-Projects/ExpiryDateTracker/app/src/main/res/layout/item_scanned.xml" value="0.67" />
