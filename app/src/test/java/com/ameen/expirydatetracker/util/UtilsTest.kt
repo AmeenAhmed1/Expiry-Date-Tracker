@@ -77,7 +77,7 @@ class UtilsTest {
     }
 
     @Test
-    fun `Calculate Days Left If the Date is Before Current Means Expired` (){
+    fun `Calculate Days Left If the Date is Before Current Means Expired`() {
 
         val dateString = "20-01-2022"
 
@@ -89,7 +89,7 @@ class UtilsTest {
 
 
     @Test
-    fun `Calculate Days Left If the Date is After Current Means Not Expired` (){
+    fun `Calculate Days Left If the Date is After Current Means Not Expired`() {
 
         val dateString = "25-01-2022"
         val currentDateString = "22-01-2022"
@@ -98,5 +98,25 @@ class UtilsTest {
         val result = Utils.getExpireDaysLeft(dateString)
 
         assertEquals(resultExpected, result)
+    }
+
+
+    @Test
+    fun `Get All Items from DB AND Check expire days left THEN return the updated list`() {
+        val itemList = listOf<ItemModel>(
+            ItemModel(expireDate = "01-01-2022", isExpired = false, daysLeft = 10),
+            ItemModel(expireDate = "01-02-2022", isExpired = false, daysLeft = 1),
+            ItemModel(expireDate = "05-10-2021", isExpired = true, daysLeft = 0)
+        )
+
+        val expectedList = listOf<ItemModel>(
+            ItemModel(expireDate = "01-01-2022", isExpired = true, daysLeft = 0),
+            ItemModel(expireDate = "01-02-2022", isExpired = true, daysLeft = 0),
+            ItemModel(expireDate = "05-10-2021", isExpired = true, daysLeft = 0)
+        )
+
+        val result = Utils.validateResult(itemList)
+
+        assertEquals(expectedList, result)
     }
 }
