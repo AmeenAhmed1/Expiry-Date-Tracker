@@ -33,7 +33,7 @@ class NotificationUtil(val context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = context.getString(R.string.CHANNEL_NAME)
             val descriptionText = context.getString(R.string.CHANNEL_DESCRIPTION)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel =
                 NotificationChannel(
                     context.getString(R.string.CHANNEL_ID),

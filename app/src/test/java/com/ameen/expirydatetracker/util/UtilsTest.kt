@@ -44,7 +44,7 @@ class UtilsTest {
     @Test
     fun getCurrentDateFromLocal() {
 
-        val dateString = "22-1-2022"
+        val dateString = "14-2-2022"
 
         val dateExpected = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-M-yyyy"))
 
@@ -68,7 +68,7 @@ class UtilsTest {
     @Test
     fun calculateDaysLeft() {
 
-        val dateString = "28-01-2022"
+        val dateString = "20-02-2022"
 
         val resultExpected = 6L
         val result = Utils.getExpireDaysLeft(dateString)
@@ -91,7 +91,7 @@ class UtilsTest {
     @Test
     fun `Calculate Days Left If the Date is After Current Means Not Expired`() {
 
-        val dateString = "25-01-2022"
+        val dateString = "17-02-2022"
         val currentDateString = "22-01-2022"
 
         val resultExpected = 3L
