@@ -13,19 +13,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ameen.expirydatetracker.R
 import com.ameen.expirydatetracker.data.local.AppDatabase
 import com.ameen.expirydatetracker.databinding.ActivityMainBinding
 import com.ameen.expirydatetracker.repository.ItemRepository
-import com.ameen.expirydatetracker.util.NotificationUtil
 import com.ameen.expirydatetracker.util.Utils
 import com.ameen.expirydatetracker.viewmodel.ItemViewModel
 import com.ameen.expirydatetracker.viewmodel.ItemViewModelProvider
 import com.ameen.expirydatetracker.worker.CheckDateWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.zxing.integration.android.IntentIntegrator
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,31 +64,37 @@ class MainActivity : AppCompatActivity() {
 
     private fun initWorkManager() {
 
-
-        val notification = NotificationUtil(this)
-        notification.createNotificationChannel()
-        notification.createNotification("Title", "Content")
-
-        val workManager by lazy {
-            WorkManager.getInstance(this)
-        }
-
-        val checkDaysLeftWorkRequest =
-            PeriodicWorkRequestBuilder<CheckDateWorker>(1, TimeUnit.MINUTES)
-                .addTag("Repeated")
+        val workManagerRequest =
+            OneTimeWorkRequestBuilder<CheckDateWorker>()
                 .build()
 
-        workManager.enqueueUniquePeriodicWork(
-            "Check days left worker",
-            ExistingPeriodicWorkPolicy.KEEP,
-            checkDaysLeftWorkRequest
-        )
+        WorkManager.getInstance().enqueue(workManagerRequest)
 
-        workManager.getWorkInfoByIdLiveData(checkDaysLeftWorkRequest.id)
-            .observe(this) {
-                if (it != null)
-                    Log.i(TAG, "initWorkManager: Status --> ${it.state}")
-            }
+
+//        val notification = NotificationUtil(this)
+//        notification.createNotificationChannel()
+//        notification.createNotification("Title", "Content")
+//
+//        val workManager by lazy {
+//            WorkManager.getInstance(this)
+//        }
+//
+//        val checkDaysLeftWorkRequest =
+//            PeriodicWorkRequestBuilder<CheckDateWorker>(1, TimeUnit.MINUTES)
+//                .addTag("Repeated")
+//                .build()
+//
+//        workManager.enqueueUniquePeriodicWork(
+//            "Check days left worker",
+//            ExistingPeriodicWorkPolicy.KEEP,
+//            checkDaysLeftWorkRequest
+//        )
+//
+//        workManager.getWorkInfoByIdLiveData(checkDaysLeftWorkRequest.id)
+//            .observe(this) {
+//                if (it != null)
+//                    Log.i(TAG, "initWorkManager: Status --> ${it.state}")
+//            }
 
     }
 
@@ -110,6 +115,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
         navBottomBar.setupWithNavController(navController)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
