@@ -1,0 +1,23 @@
+
+## WorkFlow Name.
+name: Unit Tests.
+
+## Actions that will be executed when you push code currently none
+on:
+  push:
+    branches: [ main , dev ]
+  pull_request:
+    branches: [ main , dev ]
+
+
+## Jobs to be executed.
+jobs:
+  ## Run unit test.
+  unit_tests:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+
+      ## Run unit tests.
+      - name: Unit tests
+        run: ./gradlew test
