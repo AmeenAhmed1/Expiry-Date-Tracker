@@ -14,24 +14,18 @@ on:
 jobs:
   ## Run unit test.
   unit_tests:
+    name: Run Unit Tests.
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
 
       ## Run unit tests.
       - name: Unit tests
-        run: ./gradlew test
-
-  upload_reports:
-    uses: actions/upload-artifact@v1
-    needs:
-      - unit_tests
-    with:
-      name: Reports
-      path: app/build/reports
+        run: ./gradlew testDebugUnitTest
 
 
   publish_test_report:
+    name: Generate Testing Report.
     runs-on: [ubuntu-latest]
     needs:
       - unit_tests
