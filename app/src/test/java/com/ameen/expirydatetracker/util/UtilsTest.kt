@@ -42,18 +42,6 @@ class UtilsTest {
     }
 
     @Test
-    fun getCurrentDateFromLocal() {
-
-        val dateString = "14-2-2022"
-
-        val dateExpected = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-M-yyyy"))
-
-        val dateResult = Utils.getCurrentDate()
-
-        assertEquals(dateExpected, dateResult)
-    }
-
-    @Test
     fun checkDateIsBeforeCurrent() {
 
         val dateString = "20-1-2022"
@@ -64,17 +52,6 @@ class UtilsTest {
         assert(result)
     }
 
-
-    @Test
-    fun calculateDaysLeft() {
-
-        val dateString = "20-02-2022"
-
-        val resultExpected = 6L
-        val result = Utils.getExpireDaysLeft(dateString)
-
-        assertEquals(resultExpected, result)
-    }
 
     @Test
     fun `Calculate Days Left If the Date is Before Current Means Expired`() {
@@ -91,11 +68,11 @@ class UtilsTest {
     @Test
     fun `Calculate Days Left If the Date is After Current Means Not Expired`() {
 
-        val dateString = "17-02-2022"
-        val currentDateString = "22-01-2022"
+        val dateString = "15-02-2022"
+        val currentDateString = Utils.convertStringToDate("10-02-2022")
 
-        val resultExpected = 3L
-        val result = Utils.getExpireDaysLeft(dateString)
+        val resultExpected = 5L
+        val result = Utils.getExpireDaysLeft(dateString, currentDate = currentDateString)
 
         assertEquals(resultExpected, result)
     }

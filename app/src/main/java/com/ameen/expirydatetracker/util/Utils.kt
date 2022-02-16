@@ -48,8 +48,8 @@ object Utils {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun checkScannedIsBeforeCurrent(date: LocalDate) =
-        date.isBefore(getCurrentDate())
+    fun checkScannedIsBeforeCurrent(date: LocalDate, currentDate: LocalDate = getCurrentDate()) =
+        date.isBefore(currentDate)
 
     /**
      *  Get the days between two dates
@@ -57,12 +57,12 @@ object Utils {
      *  @return -1 otherwise.
      *  @param dateScanned -> Scanned Expire Date.
      */
-    fun getExpireDaysLeft(dateScanned: String): Long {
+    fun getExpireDaysLeft(dateScanned: String, currentDate: LocalDate = getCurrentDate()): Long {
 
         val date = convertStringToDate(dateScanned)
 
-        if (!checkScannedIsBeforeCurrent(date))
-            return abs(ChronoUnit.DAYS.between(date, getCurrentDate()))
+        if (!checkScannedIsBeforeCurrent(date, currentDate))
+            return abs(ChronoUnit.DAYS.between(date, currentDate))
 
         return -1
     }
