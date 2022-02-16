@@ -22,6 +22,14 @@ jobs:
       - name: Unit tests
         run: ./gradlew test
 
+  upload_reports:
+    uses: actions/upload-artifact@v1
+    needs:
+      - unit_tests
+    with:
+      name: Reports
+      path: app/build/reports
+
 
   publish_test_report:
     runs-on: [ubuntu-latest]
@@ -31,4 +39,4 @@ jobs:
       - uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: test-result/**/*.xml
+          files: test-result/testDebugUnitTest/TEST-com.ameen.expirydatetracker.util.UtilsTest.xml
